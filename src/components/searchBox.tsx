@@ -1,34 +1,20 @@
 import { Dispatch, useState } from "react";
 import getWeather from "../utils/getWeather";
 import { Search, X } from "lucide-react-native";
+import { WeatherTypes } from "../utils/weather.types";
 import { Pressable, TextInput, View } from "react-native";
 
 export default function SearchBox({
   setWeatherData,
 }: {
-  setWeatherData: Dispatch<
-    React.SetStateAction<{
-      tempInC: string;
-      tempInF: string;
-      dayTime: string;
-      status: string;
-      location: string;
-    }>
-  >;
+  setWeatherData: Dispatch<React.SetStateAction<WeatherTypes | undefined>>;
 }) {
   const [searchInput, setSearchInput] = useState<string>("");
 
   const handleSearch = async () => {
-    const data: any = await getWeather(searchInput);
-    setWeatherData((prevData) => {
-      return {
-        ...prevData,
-        tempInC: data.current.temp_c,
-        tempInF: data.current.temp_f,
-        status: data.current.condition.text,
-        location: data.location.name,
-      };
-    });
+    const data = await getWeather(searchInput);
+    if (!data) return;
+    setWeatherData(data);
     setSearchInput("");
   };
 
