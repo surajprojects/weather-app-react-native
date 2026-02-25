@@ -1,97 +1,184 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+---
 
-# Getting Started
+# Weather App
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+A simple and responsive **Weather mobile app** built using **React Native CLI** with **NativeWind** for styling.
+This app allows users to search for locations and view real-time weather information with temperature, conditions, and forecasts.
 
-## Step 1: Start Metro
+## Features
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- Search for locations
+- Display real-time weather data
+- Show current temperature and weather conditions
+- Display location name and time
+- Weather forecast information
+- Responsive mobile UI
+- Styled using NativeWind (Tailwind for React Native)
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## Tech Stack
 
-```sh
-# Using npm
+- **React Native CLI**
+- **TypeScript**
+- **NativeWind**
+- **TailwindCSS (for RN)**
+- **React Navigation**
+- **WeatherAPI.com** (for weather data)
+
+## ScreenShots
+
+![Screenshot](/public/weather-app-screenshot.jpg)
+
+## Installation & Setup
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed
+- **Node.js** (v20 or higher)
+- **npm** or **yarn**
+- **Java Development Kit (JDK)** (v11 or higher)
+- **Android SDK** with API level 34 or higher
+- **Android Studio** (recommended) or Android command-line tools
+- **Gradle** (compatible with the Android Gradle Plugin)
+
+### Step 1: Clone and Install Dependencies
+
+1. Clone the repository
+   ```bash
+   git clone <repository-url>
+   cd Weather
+   ```
+
+2. Navigate to the project folder and install dependencies
+   ```bash
+   npm install
+   # or if you use yarn
+   yarn install
+   ```
+
+### Step 2: Android Gradle Configuration
+
+1. **Configure `gradle.properties`** (optional but recommended)
+   - Edit `android/gradle.properties` to customize your build environment
+   - Default JVM args are set to `-Xmx2048m` for better performance
+
+2. **Update SDK versions** (if needed)
+   - Edit `android/build.gradle` and `android/app/build.gradle`
+   - Ensure `compileSdkVersion` and `targetSdkVersion` match your Android SDK
+
+### Step 3: Keystore Configuration (For Release Builds)
+
+#### Generate a New Keystore File (First Time Only)
+
+1. Navigate to the Android app directory
+   ```bash
+   cd android/app
+   ```
+
+2. Generate a keystore file using keytool
+   ```bash
+   keytool -genkey -v -keystore my-upload-key.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias my-key-alias
+   ```
+
+   You'll be prompted to enter
+   - Keystore password
+   - Key password
+   - Your name, organization, city, state, and country
+
+3. Keep the keystore file and passwords safe. You'll need them for future builds.
+
+#### Configure Signing in Gradle
+
+1. Create or update `android/app/gradle.properties` with your keystore credentials
+   ```properties
+   MYAPP_UPLOAD_STORE_FILE=my-upload-key.keystore
+   MYAPP_UPLOAD_STORE_PASSWORD=<your-keystore-password>
+   MYAPP_UPLOAD_KEY_ALIAS=my-key-alias
+   MYAPP_UPLOAD_KEY_PASSWORD=<your-key-password>
+   ```
+
+2. The `android/app/build.gradle` is already configured to use these properties for release builds
+
+### Step 4: Start Metro Bundler
+
+In your project root directory, start the Metro Bundler
+
+```bash
 npm start
-
-# OR using Yarn
+# or
 yarn start
 ```
 
-## Step 2: Build and run your app
+Keep this terminal running while developing.
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+### Step 5: Build and Run
 
-### Android
+#### Debug Build (for development)
 
-```sh
-# Using npm
+In a new terminal, run on Android device or emulator
+
+```bash
 npm run android
-
-# OR using Yarn
-yarn android
+# or
+react-native run-android
 ```
 
-### iOS
+#### Release Build (for production)
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+To build a release APK
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```bash
+cd android
+./gradlew assembleRelease
+# On Windows, use:
+gradlew.bat assembleRelease
 ```
 
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
+The APK will be located at
+```
+android/app/build/outputs/apk/release/app-release.apk
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+To build for Google Play (AAB - Android App Bundle)
 
-```sh
-# Using npm
+```bash
+cd android
+./gradlew bundleRelease
+# On Windows, use:
+gradlew.bat bundleRelease
+```
+
+The AAB will be located at
+```
+android/app/build/outputs/bundle/release/app-release.aab
+```
+
+### iOS Build (Optional)
+
+If you want to build for iOS
+
+```bash
 npm run ios
-
-# OR using Yarn
-yarn ios
+# or
+react-native run-ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+For iOS release builds, use Xcode or the following command
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```bash
+cd ios
+xcodebuild -workspace Weather.xcworkspace -scheme Weather -configuration Release
+```
 
-## Step 3: Modify your app
+## API Configuration
 
-Now that you have successfully run the app, let's make changes!
+This app uses **WeatherAPI.com** for fetching weather data. The API key is already configured in the codebase for development purposes.
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## License
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## Author
 
-## Congratulations! :tada:
+Made with ❤️ by Tiger
 
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+---
