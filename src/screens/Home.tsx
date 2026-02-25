@@ -1,13 +1,12 @@
 import { useState } from "react";
 import SearchBox from "../components/searchBox";
 import { MapPin, Sun } from "lucide-react-native";
-import { ScrollView, Text, View } from "react-native";
-import { WeatherTypes } from "../utils/weather.types";
 import { currentDate } from "../utils/dateAndTime";
+import { WeatherTypes } from "../utils/weather.types";
+import { Image, ScrollView, Text, View } from "react-native";
 
 export default function Home() {
   const [weatherData, setWeatherData] = useState<WeatherTypes>();
-
   return (
     <>
       <ScrollView className="flex-1 p-5">
@@ -16,7 +15,15 @@ export default function Home() {
         {/* Wrapper */}
         <View className="flex items-center py-8">
           {/* Weather Icon */}
-          <Sun size={110} color={"#1f2937"} />
+          {weatherData && (
+            <Image
+              source={{ uri: `https:${weatherData.current.condition.icon}` }}
+              style={{
+                width: 120,
+                height: 120,
+              }}
+            />
+          )}
           {/* Temperature Wrapper */}
           <View className="flex flex-row py-4">
             <Text className="text-8xl text-gray-800">

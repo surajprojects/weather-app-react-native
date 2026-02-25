@@ -8,8 +8,8 @@ export default function RootNavigator() {
   return (
     <>
       <NavigationContainer onReady={async () => await BootSplash.hide({ fade: true })}>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={Home} />
+        <Stack.Navigator initialRouteName="Weather">
+          <Stack.Screen name="Weather" component={Home} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

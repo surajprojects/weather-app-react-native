@@ -21,6 +21,7 @@ export default function SearchBox({
   return (
     <>
       <View className="bg-white flex flex-row items-center rounded-3xl px-3 py-0.5 gap-x-2">
+        {/* Search Input */}
         <TextInput
           onSubmitEditing={handleSearch}
           value={searchInput}
@@ -29,9 +30,11 @@ export default function SearchBox({
           placeholder="Search for places..."
           className="text-lg flex-1 text-gray-800"
         />
+        {/* Search Button */}
         <Pressable onPress={handleSearch} className="bg-gray-200 rounded-full p-2">
           <Search size={22} color={"#1f2937"} />
         </Pressable>
+        {/* Search Clear Button */}
         <Pressable onPress={() => setSearchInput("")} className="bg-gray-200 rounded-full p-1.5">
           <X size={24} color={"#1f2937"} />
         </Pressable>
